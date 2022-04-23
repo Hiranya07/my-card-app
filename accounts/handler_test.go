@@ -111,3 +111,59 @@ func TestNewAccount(t *testing.T) {
 		})
 	}
 }
+
+func TestAccount_GetAccount(t *testing.T) {
+
+	ctrl := gomock.NewController(t)
+
+	// Assert that Bar() is invoked.
+	defer ctrl.Finish()
+
+	m := mock.NewMockIAccountService(ctrl)
+	type args struct {
+		w http.ResponseWriter
+		r *http.Request
+	}
+	tests := []struct {
+		name  string
+		acc   Account
+		args  args
+		setup func() IAccountService
+	}{
+		{
+			name: "Failed to get records",
+			acc:  Account{},
+			args: args{
+				w: httptest.NewRecorder(),
+				r: httptest.NewRequest(http.MethodPost, "/accounts/{accountId}", nil),
+			},
+			setup: func() IAccountService {
+
+				m.EXPECT().GetAccount(gomock.Any(), gomock.Any()).Times(1).Return(models.AccountDetails{}, errors.New("error"))
+				return m
+
+			},
+		},
+
+		{
+			name: "Scucessfully retrieve records",
+			acc:  Account{},
+			args: args{
+				w: httptest.NewRecorder(),
+				r: httptest.NewRequest(http.MethodPost, "/accounts/{accountId}", nil),
+			},
+			setup: func() IAccountService {
+
+				m.EXPECT().GetAccount(gomock.Any(), gomock.Any()).Times(1).Return(models.AccountDetails{AccId: 2, DocumentNumber: 12334}, nil)
+				return m
+
+			},
+		},
+	}
+	for _, tt := range tests {
+		tt.acc.accServe = tt.setup
+		t.Run(tt.name, func(t *testing.T) {
+			tt.acc.GetAccount(tt.args.w, tt.args.r)
+		})
+	}
+}

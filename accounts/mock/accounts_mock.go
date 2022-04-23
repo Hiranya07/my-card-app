@@ -6,6 +6,7 @@ package mock_accounts
 
 import (
 	context "context"
+	models "my-card-app/models"
 	reflect "reflect"
 
 	gomock "github.com/golang/mock/gomock"
@@ -46,4 +47,19 @@ func (m *MockIAccountService) CreateAccount(ctx context.Context, accountId int) 
 func (mr *MockIAccountServiceMockRecorder) CreateAccount(ctx, accountId interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateAccount", reflect.TypeOf((*MockIAccountService)(nil).CreateAccount), ctx, accountId)
+}
+
+// GetAccount mocks base method.
+func (m *MockIAccountService) GetAccount(ctx context.Context, accountId int) (models.AccountDetails, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetAccount", ctx, accountId)
+	ret0, _ := ret[0].(models.AccountDetails)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetAccount indicates an expected call of GetAccount.
+func (mr *MockIAccountServiceMockRecorder) GetAccount(ctx, accountId interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAccount", reflect.TypeOf((*MockIAccountService)(nil).GetAccount), ctx, accountId)
 }
