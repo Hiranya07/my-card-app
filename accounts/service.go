@@ -2,7 +2,7 @@ package accounts
 
 import (
 	"context"
-	"my-card-app/db/repositories"
+	"my-card-app/accounts/db/repositories"
 	"my-card-app/models"
 )
 
