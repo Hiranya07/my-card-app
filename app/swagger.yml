@@ -41,16 +41,48 @@ paths:
         description: "document_number against which the account needs to be created"
         required: true
         schema:
-          $ref: "#/definitions/Account"
+          $ref: "#/definitions/AccountInput"
       responses:
         "201":
            description: "Record created"
         "400":
           description: "Invalid input"
+  
+  /accounts/accountId:
+    get:
+      tags:
+      - "Account Management"
+      summary: "Get an account"
+      description: ""
+      operationId: "RetrieveAccount"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+     
+      responses:
+        "200":
+           description: "Account Record "
+           schema:
+                $ref: "#/definitions/Account"
+        "400":
+          description: "Invalid input"
+        "404":
+          description: "Record not found"
    
      
 
 definitions:
+  
+  AccountInput:
+    type: "object"
+    required:
+    - "name"
+    - "photoUrls"
+    properties:
+      AccId:
+        type: "integer"
+        format: "int64"
   
   Account:
     type: "object"
@@ -59,6 +91,9 @@ definitions:
     - "photoUrls"
     properties:
       AccId:
+        type: "integer"
+        format: "int64" 
+      DocumentNumber:
         type: "integer"
         format: "int64"
   
