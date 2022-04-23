@@ -10,11 +10,3 @@ This application contains business logic for accounts/transaction management of 
 
 ## Package 
 
-[my-card-app]:
-    (accounts):
-     - Contains handlers for all the rest endpoints to interact with the application
-     - Contains the business logic to carry out the business scenarios
-     mock:
-     - Contains mock for the business logic
-     db:
-
