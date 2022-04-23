@@ -41,4 +41,6 @@ func (acc Account) CreateAccount(w http.ResponseWriter, r *http.Request) {
 		response.Error(ctx, w, responseError, false)
 	}
 
+	response.Response(w, http.StatusCreated, nil)
+
 }
