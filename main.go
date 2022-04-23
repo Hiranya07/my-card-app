@@ -13,7 +13,6 @@ func main() {
 
 	db.NewDbInstance()
 	router := routes.NewRouter()
-	fmt.Println("routes", router)
 	middlewareManager := negroni.New()
 
 	middlewareManager.UseHandler(router)

@@ -31,8 +31,8 @@ func (acc Account) CreateAccount(w http.ResponseWriter, r *http.Request) {
 
 	ctx := r.Context()
 	var acc_in models.AccountInput
-	err := validations.ExtractPayload(r, &acc_in)
 
+	err := validations.ExtractPayload(r, &acc_in)
 	if err != nil {
 		responseError := response.NewError(err, errorCantDecodeInputData, err.Error(), http.StatusBadRequest)
 		response.Error(ctx, w, responseError, false)

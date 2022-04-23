@@ -3,8 +3,8 @@ package accounts
 import (
 	"context"
 	"errors"
-	"my-card-app/db/repositories"
-	dbMock "my-card-app/db/repositories/mock"
+	"my-card-app/accounts/db/repositories"
+	dbMock "my-card-app/accounts/db/repositories/mock"
 	"my-card-app/models"
 	"reflect"
 	"testing"

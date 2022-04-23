@@ -8,3 +8,9 @@ type AccountDetails struct {
 	AccId          int `json:"accId"`
 	DocumentNumber int `json:"documentNumber"`
 }
+
+type Transactions struct {
+	AccountId       int     `json:"accountId"`
+	OperationTypeId int     `json:"operationTypeId"`
+	Amount          float64 `json:"amount"`
+}
