@@ -5,6 +5,9 @@ import (
 	"my-card-app/response"
 	"my-card-app/validations"
 	"net/http"
+	"strconv"
+
+	"github.com/gorilla/mux"
 )
 
 type Account struct {
@@ -19,8 +22,9 @@ func NewAccount() Account {
 }
 
 const (
-	errorCantDecodeInputData  = `error_can't_decode_input`
-	errorWhileCreatingAccount = `error_while_creating_account`
+	errorCantDecodeInputData    = `error_can't_decode_input`
+	errorWhileCreatingAccount   = `error_while_creating_account`
+	errorWhileRetrievingAccount = `error_while_retreving_account`
 )
 
 func (acc Account) CreateAccount(w http.ResponseWriter, r *http.Request) {
@@ -39,8 +43,27 @@ func (acc Account) CreateAccount(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		responseError := response.NewError(err, errorWhileCreatingAccount, err.Error(), http.StatusInternalServerError)
 		response.Error(ctx, w, responseError, false)
+		return
 	}
 
 	response.Response(w, http.StatusCreated, nil)
+
+}
+
+func (acc Account) GetAccount(w http.ResponseWriter, r *http.Request) {
+
+	ctx := r.Context()
+
+	accountIdStr := mux.Vars(r)["accountId"]
+
+	accountId, _ := strconv.Atoi(accountIdStr)
+
+	accDetails, err := acc.accServe().GetAccount(ctx, accountId)
+	if err != nil {
+		response.Error(ctx, w, err, false)
+		return
+	}
+
+	response.Response(w, http.StatusOK, accDetails)
 
 }

@@ -12,6 +12,7 @@ func NewRouter() *mux.Router {
 	router := mux.NewRouter()
 
 	router.HandleFunc("/accounts", accounts.NewAccount().CreateAccount).Methods(http.MethodPost)
+	router.HandleFunc("/accounts/{accountId}", accounts.NewAccount().GetAccount).Methods(http.MethodGet)
 	return router
 }
 

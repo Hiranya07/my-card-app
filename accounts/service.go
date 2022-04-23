@@ -3,10 +3,12 @@ package accounts
 import (
 	"context"
 	"my-card-app/db/repositories"
+	"my-card-app/models"
 )
 
 type IAccountService interface {
 	CreateAccount(ctx context.Context, accountId int) error
+	GetAccount(ctx context.Context, accountId int) (models.AccountDetails, error)
 }
 
 type AccountService struct {
@@ -24,11 +26,7 @@ func (accServer AccountService) CreateAccount(ctx context.Context, accountId int
 	return accServer.repo().CreateAccount(ctx, accountId)
 }
 
-// func (accServer AccountService) createRecord(ctx context.Context, accountId int) error {
+func (accServer AccountService) GetAccount(ctx context.Context, accountId int) (models.AccountDetails, error) {
 
-// 	_, err := db.DbInstance.Exec("INSERT INTO accounts (document_number) VALUES (?)", accountId)
-// 	if err != nil {
-// 		return err
-// 	}
-// 	return nil
-// }
+	return accServer.repo().GetAccount(ctx, accountId)
+}

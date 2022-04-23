@@ -6,6 +6,7 @@ package mock_repositories
 
 import (
 	context "context"
+	models "my-card-app/models"
 	reflect "reflect"
 
 	gomock "github.com/golang/mock/gomock"
@@ -46,4 +47,19 @@ func (m *MockIRepository) CreateAccount(ctx context.Context, acc_id int) error {
 func (mr *MockIRepositoryMockRecorder) CreateAccount(ctx, acc_id interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateAccount", reflect.TypeOf((*MockIRepository)(nil).CreateAccount), ctx, acc_id)
+}
+
+// GetAccount mocks base method.
+func (m *MockIRepository) GetAccount(ctx context.Context, accountId int) (models.AccountDetails, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetAccount", ctx, accountId)
+	ret0, _ := ret[0].(models.AccountDetails)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetAccount indicates an expected call of GetAccount.
+func (mr *MockIRepositoryMockRecorder) GetAccount(ctx, accountId interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAccount", reflect.TypeOf((*MockIRepository)(nil).GetAccount), ctx, accountId)
 }
