@@ -2,7 +2,6 @@ package transactions
 
 import (
 	"context"
-	"fmt"
 	"my-card-app/models"
 	"my-card-app/transactions/db/repositories"
 )
@@ -23,6 +22,5 @@ func NewTransactionService() ITransaction {
 
 func (trx TransactionService) Create(ctx context.Context, trnx models.Transactions) error {
 
-	fmt.Println("trx", trnx)
 	return trx.repo().Create(ctx, trnx)
 }
