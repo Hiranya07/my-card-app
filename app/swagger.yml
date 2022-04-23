@@ -1,0 +1,77 @@
+swagger: "2.0"
+info:
+  description: "This Swagger contains the rest endpoints for cardapp"
+  version: "1.0.0"
+  title: "my-card-app"
+  termsOfService: "http://swagger.io/terms/"
+  contact:
+    email: "apiteam@swagger.io"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "petstore.swagger.io"
+basePath: "/"
+tags:
+- name: "Account Management"
+  description: "Contains the rest endpoints for account related business"
+  externalDocs:
+    description: "Find out more"
+    url: "http://swagger.io"
+- name: "Transaction Management"
+  description: "Contains the rest endpoints for transaction related business"
+
+schemes:
+- "https"
+- "http"
+paths:
+  /accounts:
+    post:
+      tags:
+      - "Account Management"
+      summary: "Create a new account"
+      description: ""
+      operationId: "createAccount"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "document_number"
+        description: "document_number against which the account needs to be created"
+        required: true
+        schema:
+          $ref: "#/definitions/Account"
+      responses:
+        "201":
+           description: "Record created"
+        "400":
+          description: "Invalid input"
+   
+     
+
+definitions:
+  
+  Account:
+    type: "object"
+    required:
+    - "name"
+    - "photoUrls"
+    properties:
+      AccId:
+        type: "integer"
+        format: "int64"
+  
+  ApiResponse:
+    type: "object"
+    properties:
+      code:
+        type: "integer"
+        format: "int32"
+      type:
+        type: "string"
+      message:
+        type: "string"
+externalDocs:
+  description: "Find out more about Swagger"
+  url: "http://swagger.io"
