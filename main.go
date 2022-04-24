@@ -6,11 +6,14 @@ import (
 	routes "my-card-app/routes"
 	"net/http"
 
+	conf "my-card-app/config"
+
 	"github.com/urfave/negroni"
 )
 
 func main() {
 
+	conf.Load()
 	db.NewDbInstance()
 	router := routes.NewRouter()
 	middlewareManager := negroni.New()
