@@ -37,7 +37,7 @@ This application contains business logic for accounts/transaction management of 
 - transaction/db/respositories : Contains logic for transaction related crud operations
 
 ### mocking
-- Execute the below command to generate mock for the interaces: mockgen -source=<path to the go file contains interface> <destination path>
+- Execute the below command to generate mock for the interaces: mockgen -source=path_to_interface destination_path
 
 
 
