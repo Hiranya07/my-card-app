@@ -1,0 +1,6 @@
+{
+    "DbAddr":"127.0.0.1:3306",
+    "DbPassWord":"Hiranya",
+    "DbName":"cardapp"
+
+}

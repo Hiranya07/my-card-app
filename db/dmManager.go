@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"log"
 
+	conf "my-card-app/config"
+
 	"github.com/go-sql-driver/mysql"
 )
 
@@ -14,10 +16,10 @@ func NewDbInstance() {
 	// Capture connection properties.
 	cfg := mysql.Config{
 		User:   "root",
-		Passwd: "Hiranya",
+		Passwd: conf.Config.DbPassWord,
 		Net:    "tcp",
-		Addr:   "127.0.0.1:3306",
-		DBName: "cardapp",
+		Addr:   conf.Config.DbAddr,
+		DBName: conf.Config.DbName,
 	}
 	// Get a database handle.
 	var err error
