@@ -1,112 +1,332 @@
-swagger: "2.0"
-info:
-  description: "This Swagger contains the rest endpoints for cardapp"
-  version: "1.0.0"
-  title: "my-card-app"
-  termsOfService: "http://swagger.io/terms/"
-  contact:
-    email: "apiteam@swagger.io"
-  license:
-    name: "Apache 2.0"
-    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
-host: "petstore.swagger.io"
-basePath: "/"
-tags:
-- name: "Account Management"
-  description: "Contains the rest endpoints for account related business"
-  externalDocs:
-    description: "Find out more"
-    url: "http://swagger.io"
-- name: "Transaction Management"
-  description: "Contains the rest endpoints for transaction related business"
+openapi: "3.0.3"
 
-schemes:
-- "https"
-- "http"
+info:
+  title: Card App service
+  description: 
+    
+    Describes API endpoints for card application
+
+  contact:
+    name: card app team
+    email: hiranyadeka07@gmail.com
+  
+  version: 1.0.1
+
+servers:
+- url: http://localhost:8080/
+  description: Development
+
+
+tags:
+  
+  - name: "Account Management"
+    description: "Contains Rest endpoints for account management"
+  - name: "Transaction Management"
+    description: "Contains Rest endpoints for transaction management"
+ 
+
 paths:
+ 
+  
   /accounts:
     post:
-      tags:
-      - "Account Management"
-      summary: "Create a new account"
-      description: ""
-      operationId: "createAccount"
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      parameters:
-      - in: "body"
-        name: "document_number"
-        description: "document_number against which the account needs to be created"
-        required: true
-        schema:
-          $ref: "#/definitions/AccountInput"
-      responses:
-        "201":
-           description: "Record created"
-        "400":
-          description: "Invalid input"
-  
-  /accounts/accountId:
-    get:
-      tags:
-      - "Account Management"
-      summary: "Get an account"
-      description: ""
-      operationId: "RetrieveAccount"
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-     
-      responses:
-        "200":
-           description: "Account Record "
-           schema:
-                $ref: "#/definitions/Account"
-        "400":
-          description: "Invalid input"
-        "404":
-          description: "Record not found"
-   
+      summary: "Create Accounts"
+      description: 
+        <h3>Overview</h3>
+        <ul>
+        <li>API to Create account </li>
+            <li>This API helps in creating an account for the provided document number</li>
+            
+            <li>All Input data supplied in the API should be sanitized for Security vulnerability.</li>
+        </ul>
+         <h3>Workflow</h3>
+              
+        <h3>Permissions</h3>
+        <ul>
+        
+        <li> Caller should have permissions - Account.Create </li>
+        </ul>
+        
      
 
-definitions:
+       
+      operationId: AccountCreation
+      tags:
+        - Account Management
+      parameters: 
+        - $ref: '#/components/parameters/documentnumber'
+        
+      
+      requestBody:
+        content: 
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountInput'
+      responses:
+        '201':
+          description: "Account Created Successfully"
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountResponse'
+        '400':
+          description: "Request Processing / validation failed"
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: "Authentication Failure"
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: "Internal Server Error"
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
   
-  AccountInput:
-    type: "object"
-    required:
-    - "name"
-    - "photoUrls"
-    properties:
-      AccId:
-        type: "integer"
-        format: "int64"
+                
+  /accounts/{accountId}:
+    get:
+      summary: "Retrieve account by account Id"
+      description: 
+      
+        <h3>Overview</h3>
+        <ul>
+         <li> This API helps to retrieve an account by accountId </li>
+        </ul>
+      
+        <ul>
+          <li>Caller should have permissions - View.</l>
+        </ul>
+      operationId: CreateScheduledTask
+      tags:
+        - Account Management
+      parameters:
+        - $ref: '#/components/parameters/accountId'
+    
+      
+      responses:
+        '200':
+          description: "Retrieve account by account id"
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountResponse'
+        '400':
+          description: "Request Processing / validation failed"
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: "Authentication Failure"
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: "Task does not exist"
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: "Internal Server Error"
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                
+  /transactions:
+    post:
+      summary: "Create Transactions "
+      description: 
+        <h3>Overview</h3>
+        <ul>
+        <li>API to Create transaction </li>
+            <li>This API helps in creating an transaction for the provided inputs</li>
+            
+            <li>All Input data supplied in the API should be sanitized for Security vulnerability.</li>
+        </ul>
+         <h3>Workflow</h3>
+              
+        <h3>Permissions</h3>
+        <ul>
+        
+        <li> Caller should have permissions - Create </li>
+        </ul>
+        
+     
+
+       
+      operationId: TransactionCreation
+      tags:
+        - Transaction Management
+      parameters: 
+        - $ref: '#/components/parameters/AccountId'
+        - $ref: '#/components/parameters/OperationTypeId'
+        - $ref: '#/components/parameters/Amount'
+        
+      
+      requestBody:
+        content: 
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransactionRequest'
+      responses:
+        '201':
+          description: "Transaction Created Successfully"
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionResponse'
+        '400':
+          description: "Request Processing / validation failed"
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: "Authentication Failure"
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: "Internal Server Error"
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'              
+                
+   
+          
+components:
+
+  schemas:
+            
+    AccountInput:
+      type: object
+      
+      properties:
+          DocumentNumber:
+              type: integer
+              format: int64
+              example: 1234
+    
+    AccountResponse:
+      type: object
+      properties:
+          AccountId:
+              type: object
+              example: 1
+          DocumentNumber:
+              type: object
+              example: 12345 
+    
+    TransactionRequest:
+      type: object
+      properties:
+        AccountId:
+          type: integer
+          example: 1
+        OperationTypeId:
+          type: integer
+          example: 2
+        Acmount:
+          type: integer
+          example: "50.0|-50.0"
+   
+    TransactionResponse :
+      type: object
+      properties:
+        TransactionId:
+          type: integer
+          example: 1
+    
+   
+    
   
-  Account:
-    type: "object"
-    required:
-    - "name"
-    - "photoUrls"
-    properties:
-      AccId:
-        type: "integer"
-        format: "int64" 
-      DocumentNumber:
-        type: "integer"
-        format: "int64"
   
-  ApiResponse:
-    type: "object"
-    properties:
-      code:
-        type: "integer"
-        format: "int32"
-      type:
-        type: "string"
-      message:
-        type: "string"
-externalDocs:
-  description: "Find out more about Swagger"
-  url: "http://swagger.io"
+          
+   
+          
+    Error:
+      type: object
+      description: "Error response object will be sent from all the Rest endpoint in case of any failure or error"
+      properties:
+        message:
+          type: string
+          example: "Error Message"
+        code:
+          type: string
+          example: "Error Code"
+
+
+  parameters:
+  
+    documentnumber:
+      name: DocumentNumber
+      in : header
+      description: "This id needs to be provided for an account creation"
+      required: true
+      example: "12345"
+      schema:
+        type: integer
+        format: int64
+    
+    accountId:
+      name: accountId
+      in: path
+      description: "Account Id against which account details needs to be retrieved"
+      required: true
+      example: 1
+      schema:
+        type: integer
+        format: int64
+        
+    Accept-Language:
+      name: Accept-Language
+      in: header
+      description: "Optional language header"
+      required: false
+      example: application/json
+      schema:
+        type: string
+        
+    AccountId:
+      name: AccountId
+      in: header
+      description: "AccountId for which the transaction needs to be created"
+      required: true
+      example: 123
+      schema:
+        type: integer
+        
+    OperationTypeId:
+      name: OperationTypeId
+      in: header
+      description: "OperationTypeId against which transaction needs to be created"
+      required: true
+      example: 1
+      schema:
+        type: integer
+        
+    Amount:
+      name: Amount
+      in: header
+      description: "Amount for which transaction needs to be created"
+      required: true
+      example: 50.0 | -50.0
+      schema:
+        type: number
+    
+   
+        
+        
+   
