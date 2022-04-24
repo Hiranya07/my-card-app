@@ -14,6 +14,10 @@ This application contains business logic for accounts/transaction management of 
 ##### User need to provide value for DbName,DbAddr & DbPassWord configurations
 ![image](https://user-images.githubusercontent.com/12723634/164987476-54969a4a-d5d2-452c-84b7-b182bc00e152.png)
 
+## Rest Endpoints
+###### Please refer to the swagger file for the rest endpoints:https://github.com/Hiranya07/my-card-app/blob/main/app/swagger.yml
+
+
 
 
 
