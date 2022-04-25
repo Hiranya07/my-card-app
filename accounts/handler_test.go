@@ -65,7 +65,7 @@ func TestAccount_CreateAccount(t *testing.T) {
 				r: httptest.NewRequest(http.MethodPost, "/accounts", bytes.NewReader(body)),
 			},
 			setup: func() IAccountService {
-				m.EXPECT().CreateAccount(gomock.Any(), gomock.Any()).Times(1).Return(errors.New("error occurrred"))
+				m.EXPECT().CreateAccount(gomock.Any(), gomock.Any()).Times(1).Return(models.AccountResponse{}, errors.New("error occurrred"))
 				return m
 
 			},
@@ -78,7 +78,7 @@ func TestAccount_CreateAccount(t *testing.T) {
 				r: httptest.NewRequest(http.MethodPost, "/accounts", bytes.NewReader(body)),
 			},
 			setup: func() IAccountService {
-				m.EXPECT().CreateAccount(gomock.Any(), gomock.Any()).Times(1).Return(nil)
+				m.EXPECT().CreateAccount(gomock.Any(), gomock.Any()).Times(1).Return(models.AccountResponse{AccountId: 3}, nil)
 				return m
 
 			},

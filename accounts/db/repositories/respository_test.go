@@ -33,6 +33,6 @@ func TestRepository_CreateAccount(t *testing.T) {
 	prep := mock.ExpectPrepare(query)
 	prep.ExpectExec().WithArgs(1234).WillReturnResult(sqlmock.NewResult(0, 1))
 
-	err := NewRepo().CreateAccount(context.Background(), 12345)
+	_, err := NewRepo().CreateAccount(context.Background(), 12345)
 	assert.Error(t, err)
 }

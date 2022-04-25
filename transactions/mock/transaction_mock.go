@@ -36,11 +36,12 @@ func (m *MockITransaction) EXPECT() *MockITransactionMockRecorder {
 }
 
 // Create mocks base method.
-func (m *MockITransaction) Create(ctx context.Context, trnx models.Transactions) error {
+func (m *MockITransaction) Create(ctx context.Context, trnx models.Transactions) (models.TransactionResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Create", ctx, trnx)
-	ret0, _ := ret[0].(error)
-	return ret0
+	ret0, _ := ret[0].(models.TransactionResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
 }
 
 // Create indicates an expected call of Create.

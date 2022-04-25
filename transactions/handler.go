@@ -33,13 +33,13 @@ func (trx Transaction) Create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = trx.trxServ().Create(ctx, trxns)
+	resp, err := trx.trxServ().Create(ctx, trxns)
 	if err != nil {
 		responseError := response.NewError(err, errorWhileCreatingTransaction, err.Error(), http.StatusInternalServerError)
 		response.Error(ctx, w, responseError, false)
 		return
 	}
 
-	response.Response(w, http.StatusCreated, nil)
+	response.Response(w, http.StatusCreated, resp)
 
 }

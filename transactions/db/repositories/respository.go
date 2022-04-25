@@ -8,7 +8,7 @@ import (
 )
 
 type IRepository interface {
-	Create(ctx context.Context, trnx models.Transactions) error
+	Create(ctx context.Context, trnx models.Transactions) (models.TransactionResponse, error)
 }
 
 type Repository struct{}
@@ -17,11 +17,16 @@ func NewRepo() IRepository {
 	return Repository{}
 }
 
-func (repo Repository) Create(ctx context.Context, trnx models.Transactions) error {
+func (repo Repository) Create(ctx context.Context, trnx models.Transactions) (models.TransactionResponse, error) {
 
-	_, err := db.DbInstance.Exec("INSERT INTO transactions (Account_Id,OperationType_Id,Amount,EventDate) VALUES (?,?,?,?)", trnx.AccountId, trnx.OperationTypeId, trnx.Amount, time.Now())
+	var resp models.TransactionResponse
+	result, err := db.DbInstance.Exec("INSERT INTO transactions (Account_Id,OperationType_Id,Amount,EventDate) VALUES (?,?,?,?)", trnx.AccountId, trnx.OperationTypeId, trnx.Amount, time.Now())
 	if err != nil {
-		return err
+		return resp, err
 	}
-	return nil
+
+	trxId, _ := result.LastInsertId()
+	resp.TransactionId = int(trxId)
+
+	return resp, nil
 }

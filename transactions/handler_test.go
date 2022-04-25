@@ -65,7 +65,7 @@ func TestTransaction_Create(t *testing.T) {
 				r: httptest.NewRequest(http.MethodPost, "/transactions", bytes.NewReader(body)),
 			},
 			setup: func() ITransaction {
-				trxMock.EXPECT().Create(gomock.Any(), gomock.Any()).Times(1).Return(errors.New("error"))
+				trxMock.EXPECT().Create(gomock.Any(), gomock.Any()).Times(1).Return(models.TransactionResponse{}, errors.New("error"))
 				return trxMock
 
 			},
@@ -79,7 +79,7 @@ func TestTransaction_Create(t *testing.T) {
 				r: httptest.NewRequest(http.MethodPost, "/transactions", bytes.NewReader(body)),
 			},
 			setup: func() ITransaction {
-				trxMock.EXPECT().Create(gomock.Any(), gomock.Any()).Times(1).Return(nil)
+				trxMock.EXPECT().Create(gomock.Any(), gomock.Any()).Times(1).Return(models.TransactionResponse{TransactionId: 3}, nil)
 				return trxMock
 
 			},

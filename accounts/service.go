@@ -7,7 +7,7 @@ import (
 )
 
 type IAccountService interface {
-	CreateAccount(ctx context.Context, accountId int) error
+	CreateAccount(ctx context.Context, accountId int) (models.AccountResponse, error)
 	GetAccount(ctx context.Context, accountId int) (models.AccountDetails, error)
 }
 
@@ -21,7 +21,7 @@ func NewAccountService() IAccountService {
 	}
 }
 
-func (accServer AccountService) CreateAccount(ctx context.Context, accountId int) error {
+func (accServer AccountService) CreateAccount(ctx context.Context, accountId int) (models.AccountResponse, error) {
 
 	return accServer.repo().CreateAccount(ctx, accountId)
 }
