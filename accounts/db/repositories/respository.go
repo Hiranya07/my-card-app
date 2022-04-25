@@ -10,7 +10,7 @@ import (
 )
 
 type IRepository interface {
-	CreateAccount(ctx context.Context, acc_id int) error
+	CreateAccount(ctx context.Context, acc_id int) (models.AccountResponse, error)
 	GetAccount(ctx context.Context, accountId int) (models.AccountDetails, error)
 }
 
@@ -20,13 +20,18 @@ func NewRepo() IRepository {
 	return Repository{}
 }
 
-func (repo Repository) CreateAccount(ctx context.Context, accountId int) error {
+func (repo Repository) CreateAccount(ctx context.Context, accountId int) (models.AccountResponse, error) {
 
-	_, err := db.DbInstance.Exec("INSERT INTO accounts (document_number) VALUES (?)", accountId)
+	var response models.AccountResponse
+	result, err := db.DbInstance.Exec("INSERT INTO accounts (document_number) VALUES (?)", accountId)
 	if err != nil {
-		return err
+		return response, err
 	}
-	return nil
+
+	acId, _ := result.LastInsertId()
+	response.AccountId = int(acId)
+
+	return response, nil
 }
 
 func (repo Repository) GetAccount(ctx context.Context, accountId int) (models.AccountDetails, error) {

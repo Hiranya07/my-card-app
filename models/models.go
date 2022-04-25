@@ -14,3 +14,11 @@ type Transactions struct {
 	OperationTypeId int     `json:"operationTypeId"`
 	Amount          float64 `json:"amount"`
 }
+
+type AccountResponse struct {
+	AccountId int `json:"accountId"`
+}
+
+type TransactionResponse struct {
+	TransactionId int `json:"transactionId"`
+}

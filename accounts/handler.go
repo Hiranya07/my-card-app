@@ -39,14 +39,14 @@ func (acc Account) CreateAccount(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = acc.accServe().CreateAccount(ctx, acc_in.AccId)
+	resp, err := acc.accServe().CreateAccount(ctx, acc_in.AccId)
 	if err != nil {
 		responseError := response.NewError(err, errorWhileCreatingAccount, err.Error(), http.StatusInternalServerError)
 		response.Error(ctx, w, responseError, false)
 		return
 	}
 
-	response.Response(w, http.StatusCreated, nil)
+	response.Response(w, http.StatusCreated, resp)
 
 }
 

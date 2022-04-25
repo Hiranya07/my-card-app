@@ -36,11 +36,12 @@ func (m *MockIRepository) EXPECT() *MockIRepositoryMockRecorder {
 }
 
 // CreateAccount mocks base method.
-func (m *MockIRepository) CreateAccount(ctx context.Context, acc_id int) error {
+func (m *MockIRepository) CreateAccount(ctx context.Context, acc_id int) (models.AccountResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "CreateAccount", ctx, acc_id)
-	ret0, _ := ret[0].(error)
-	return ret0
+	ret0, _ := ret[0].(models.AccountResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
 }
 
 // CreateAccount indicates an expected call of CreateAccount.

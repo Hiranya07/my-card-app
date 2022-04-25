@@ -7,7 +7,7 @@ import (
 )
 
 type ITransaction interface {
-	Create(ctx context.Context, trnx models.Transactions) error
+	Create(ctx context.Context, trnx models.Transactions) (models.TransactionResponse, error)
 }
 
 type TransactionService struct {
@@ -20,7 +20,7 @@ func NewTransactionService() ITransaction {
 	}
 }
 
-func (trx TransactionService) Create(ctx context.Context, trnx models.Transactions) error {
+func (trx TransactionService) Create(ctx context.Context, trnx models.Transactions) (models.TransactionResponse, error) {
 
 	return trx.repo().Create(ctx, trnx)
 }

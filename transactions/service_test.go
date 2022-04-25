@@ -39,7 +39,7 @@ func TestTransactionService_Create(t *testing.T) {
 			},
 			wantErr: true,
 			setup: func() repositories.IRepository {
-				trxMock.EXPECT().Create(gomock.Any(), gomock.Any()).Times(1).Return(errors.New("error"))
+				trxMock.EXPECT().Create(gomock.Any(), gomock.Any()).Times(1).Return(models.TransactionResponse{}, errors.New("error"))
 				return trxMock
 			},
 		},
@@ -50,9 +50,9 @@ func TestTransactionService_Create(t *testing.T) {
 				ctx:  context.Background(),
 				trnx: models.Transactions{},
 			},
-			wantErr: true,
+			wantErr: false,
 			setup: func() repositories.IRepository {
-				trxMock.EXPECT().Create(gomock.Any(), gomock.Any()).Times(1).Return(errors.New("error"))
+				trxMock.EXPECT().Create(gomock.Any(), gomock.Any()).Times(1).Return(models.TransactionResponse{TransactionId: 2}, nil)
 				return trxMock
 			},
 		},
@@ -60,7 +60,7 @@ func TestTransactionService_Create(t *testing.T) {
 	for _, tt := range tests {
 		tt.trx.repo = tt.setup
 		t.Run(tt.name, func(t *testing.T) {
-			if err := tt.trx.Create(tt.args.ctx, tt.args.trnx); (err != nil) != tt.wantErr {
+			if _, err := tt.trx.Create(tt.args.ctx, tt.args.trnx); (err != nil) != tt.wantErr {
 				t.Errorf("TransactionService.Create() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})

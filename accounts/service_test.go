@@ -41,7 +41,7 @@ func TestAccountService_CreateAccount(t *testing.T) {
 			},
 			wantErr: true,
 			setup: func() repositories.IRepository {
-				dbM.EXPECT().CreateAccount(gomock.Any(), gomock.Any()).Return(errors.New("erro"))
+				dbM.EXPECT().CreateAccount(gomock.Any(), gomock.Any()).Return(models.AccountResponse{}, errors.New("erro"))
 				return dbM
 			},
 		},
@@ -56,7 +56,7 @@ func TestAccountService_CreateAccount(t *testing.T) {
 			},
 			wantErr: false,
 			setup: func() repositories.IRepository {
-				dbM.EXPECT().CreateAccount(gomock.Any(), gomock.Any()).Return(nil)
+				dbM.EXPECT().CreateAccount(gomock.Any(), gomock.Any()).Return(models.AccountResponse{AccountId: 1}, nil)
 				return dbM
 			},
 		},
@@ -64,7 +64,7 @@ func TestAccountService_CreateAccount(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			tt.accServer.repo = tt.setup
-			if err := tt.accServer.CreateAccount(tt.args.ctx, tt.args.accountId); (err != nil) != tt.wantErr {
+			if _, err := tt.accServer.CreateAccount(tt.args.ctx, tt.args.accountId); (err != nil) != tt.wantErr {
 				t.Errorf("AccountService.CreateAccount() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})
