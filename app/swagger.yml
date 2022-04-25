@@ -103,7 +103,7 @@ paths:
         <ul>
           <li>Caller should have permissions - View.</l>
         </ul>
-      operationId: CreateScheduledTask
+      operationId: GetAccount
       tags:
         - Account Management
       parameters:
@@ -130,7 +130,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
         '404':
-          description: "Task does not exist"
+          description: "Record not found"
           content: 
             application/json:
               schema:
